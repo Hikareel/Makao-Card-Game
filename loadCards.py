@@ -24,6 +24,7 @@ def loadCards():
             cards.append(Card(colors[color], figures[figure], pygame.image.load("PNG/" + figures[figure] + colors[color] + ".png")))
 
 def randomCards(forWho):
+
     for i in (1, 2, 3, 4, 5):
         a = random.randint(0, 51)
         while cards[a].state != "Deck":
