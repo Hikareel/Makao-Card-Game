@@ -19,7 +19,7 @@ class Card:
 def loadCards():
     for color in range(len(colors)):
         for figure in range(len(figures)):
-            cards.append(Card(colors[color], figures[figure], pygame.image.load("D:\\Projekty\\MakaoPython\\PNG\\" + figures[figure] + colors[color] + ".png")))
+            cards.append(Card(colors[color], figures[figure], pygame.image.load("PNG/" + figures[figure] + colors[color] + ".png")))
 
 def randomCards(forWho):
     for i in (1, 2, 3, 4, 5):
