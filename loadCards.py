@@ -18,6 +18,7 @@ class Card:
 
 
 def loadCards():
+
     for color in range(len(colors)):
         for figure in range(len(figures)):
             cards.append(Card(colors[color], figures[figure], pygame.image.load("PNG/" + figures[figure] + colors[color] + ".png")))
