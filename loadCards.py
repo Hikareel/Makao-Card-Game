@@ -14,6 +14,7 @@ class Card:
         self.figure = figure
         self.image = image
         self.state = "Deck"
+        self.back = pygame.image.load("PNG/purple_back.png")
 
 
 def loadCards():
