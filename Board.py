@@ -17,6 +17,7 @@ class Board:
         showCards(ranCardsPlayer, screen)
         showCards(ranCardsComputer, screen)
         showCards(boardCards, screen)
+        showButton(screen)
 
 
 def showCards(forWho, SCREEN):
@@ -42,3 +43,10 @@ def showCards(forWho, SCREEN):
             x = DECK_CARD_POSITION_X
             y = DECK_CARD_POSITION_Y
             SCREEN.blit(forWho[len(forWho)-1].image, (x, y))
+
+def showButton(screen):
+    pygame.draw.rect(screen,GRAY,(5,5,120,60))
+    smallfont = pygame.font.SysFont('Corbel', 16)
+    text = smallfont.render('TAKE', True, (255,255,0))
+
+    screen.blit(text, (50, 30))
