@@ -14,26 +14,14 @@ class Game:
         self.playerWaits = 0
         self.computerWaits = 0
 
-    def takeCard(self, who):
-        a = random.randint(0, 51)
-        while cards[a].state != "Deck":
-            a = random.randint(0, 51)
-        if who == "Player":
-            ranCardsPlayer.append(cards[a])
-            cards[a].state = "Player"
-        elif who == "Computer":
-            ranCardsComputer.append(cards[a])
-            cards[a].state = "Computer"
-
-
     def putCardOnTable(self, card, who):
-        card.pos_x = 0
-        card.pos_y = 0
-        card.state = "Deck"
         if who == "Player":
             ranCardsPlayer.remove(card)
         elif who == "Computer":
             ranCardsComputer.remove(card)
+        card.pos_x = 0
+        card.pos_y = 0
+        card.state = "Deck"
         boardCards.append(card)
 
 
@@ -108,24 +96,24 @@ class Game:
                         # Jesli karta na stole nie jest waleczna
                         if not boardCards or (self.fight == 0 and self.que == 0):
                             if card.figure == 'Q':
-                                self.putCardOnTable(card, "Player")
+                                #self.putCardOnTable(card, "Player")
                                 ex = 1
-                            elif not boardCards or boardCards[len(boardCards) - 1].figure == 'Q':
-                                self.putCardOnTable(card, "Player")
+                            if not boardCards or boardCards[len(boardCards) - 1].figure == 'Q':
+                                #self.putCardOnTable(card, "Player")
                                 if card.figure == 'A':
                                     self.changeColor("Player")
                                 elif card.figure == 'J':
                                     self.figureAsk("Player")
                                 ex = 1
-                            elif not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
-                                self.putCardOnTable(card, "Player")
+                            if not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
+                                #self.putCardOnTable(card, "Player")
                                 if card.figure == 'A':
                                     self.changeColor("Player")
                                 elif card.figure == 'J':
                                     self.figureAsk("Player")
                                 ex = 1
-                            elif not boardCards or ((card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
-                                self.putCardOnTable(card, "Player")
+                            if not boardCards or ((card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
+                                #self.putCardOnTable(card, "Player")
                                 if card.figure == '2':
                                     self.fight += 2
                                 elif card.figure == '3':
@@ -133,15 +121,15 @@ class Game:
                                 elif card.figure == 'K':
                                     self.fight += 5
                                 ex = 1
-                            elif not boardCards or (card.figure == '4' and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
-                                self.putCardOnTable(card, "Player")
+                            if not boardCards or (card.figure == '4' and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
+                                #self.putCardOnTable(card, "Player")
                                 self.que += 1
                                 ex = 1
                         # Jesli na stole jest waleczna
                         else:
                             if not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
-                                if card.figure in ['2', '3', 'K'] and self.fight != 0:
-                                    self.putCardOnTable(card, "Player")
+                                if (card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and self.fight != 0:
+                                    #self.putCardOnTable(card, "Player")
                                     if card.figure == '2':
                                         self.fight += 2
                                     elif card.figure == '3':
@@ -150,12 +138,12 @@ class Game:
                                         self.fight += 5
                                     ex = 1
                                 elif card.figure == '4' and self.que != 0:
-                                    self.putCardOnTable(card, "Player")
+                                    #self.putCardOnTable(card, "Player")
                                     self.que += 1
                                     ex = 1
 
                     elif card.figure == self.askFigure or card.figure == 'J' or card.figure == 'Q':
-                        self.putCardOnTable(card, "Player")
+                        #self.putCardOnTable(card, "Player")
                         self.turnsLeft -= 1
                         if self.turnsLeft == 0:
                             self.askFigure = None
@@ -165,7 +153,7 @@ class Game:
                         ex = 1
 
                 elif card.color == self.colorChange or card.figure == 'A' or card.figure == 'Q':
-                    self.putCardOnTable(card, "Player")
+                    #self.putCardOnTable(card, "Player")
                     self.turnsLeft -= 1
                     if self.turnsLeft == 0:
                         self.colorChange = None
@@ -176,7 +164,13 @@ class Game:
 
                 if ex == 1:
                     get = 0
-                    if self.computerWaits == 0:
+                    ranCardsPlayer.remove(card)
+                    card.pos_x = 0
+                    card.pos_y = 0
+                    card.state = "Deck"
+                    boardCards.append(card)
+                    if self.computerWaits <= 1:
+                        self.computerWaits = 0
                         self.turn = "Computer"
                     else:
                         self.computerWaits -= 1
@@ -184,16 +178,31 @@ class Game:
                     break
         if get:
             if 5 < x < 125 and 5 < y < 65:
-                if self.que != 0:
-                    self.takeCard("Player")
+                if self.que > 0:
+                    #self.takeCard("Player")
+                    a = random.randint(0, 51)
+                    while cards[a].state != "Deck":
+                        a = random.randint(0, 51)
+                    ranCardsPlayer.append(cards[a])
+                    cards[a].state = "Player"
                     self.playerWaits = self.que
                     self.que = 0
-                elif self.fight != 0:
-                    while self.fight != 0:
-                        self.takeCard("Player")
+                elif self.fight > 0:
+                    while self.fight > 0:
+                        #self.takeCard("Player")
+                        a = random.randint(0, 51)
+                        while cards[a].state != "Deck":
+                            a = random.randint(0, 51)
+                        ranCardsPlayer.append(cards[a])
+                        cards[a].state = "Player"
                         self.fight -= 1
                 else:
-                    self.takeCard("Player")
+                    #self.takeCard("Player")
+                    a = random.randint(0, 51)
+                    while cards[a].state != "Deck":
+                        a = random.randint(0, 51)
+                    ranCardsPlayer.append(cards[a])
+                    cards[a].state = "Player"
                 self.turn = "Computer"
 
 
@@ -207,24 +216,24 @@ class Game:
                     # Jesli karta na stole nie jest waleczna
                     if self.fight == 0 and self.que == 0:
                         if card.figure == 'Q':
-                            self.putCardOnTable(card, "Computer")
+                            #self.putCardOnTable(card, "Computer")
                             ex = 1
-                        elif not boardCards or boardCards[len(boardCards) - 1].figure == 'Q':
-                            self.putCardOnTable(card, "Computer")
+                        if not boardCards or boardCards[len(boardCards) - 1].figure == 'Q':
+                            #self.putCardOnTable(card, "Computer")
                             if card.figure == 'A':
                                 self.changeColor("Computer")
                             elif card.figure == 'J':
                                 self.figureAsk("Computer")
                             ex = 1
-                        elif not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
-                            self.putCardOnTable(card, "Computer")
+                        if not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
+                            #self.putCardOnTable(card, "Computer")
                             if card.figure == 'A':
                                 self.changeColor("Computer")
                             elif card.figure == 'J':
                                 self.figureAsk("Computer")
                             ex = 1
-                        elif not boardCards or ((card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
-                            self.putCardOnTable(card, "Computer")
+                        if not boardCards or ((card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
+                            #self.putCardOnTable(card, "Computer")
                             if card.figure == '2':
                                 self.fight += 2
                             elif card.figure == '3':
@@ -232,15 +241,15 @@ class Game:
                             elif card.figure == 'K':
                                 self.fight += 5
                             ex = 1
-                        elif not boardCards or (card.figure == '4' and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
-                            self.putCardOnTable(card, "Computer")
+                        if not boardCards or (card.figure == '4' and (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color)):
+                            #self.putCardOnTable(card, "Computer")
                             self.que += 1
                             ex = 1
                     # Jesli na stole jest waleczna
                     else:
                         if not boardCards or (card.figure == boardCards[len(boardCards) - 1].figure or card.color == boardCards[len(boardCards) - 1].color):
-                            if card.figure in ['2', '3', 'K'] and self.fight != 0:
-                                self.putCardOnTable(card, "Computer")
+                            if (card.figure in ['2', '3'] or (card.figure == 'K' and card.color in ['H', 'S'])) and self.fight != 0:
+                                #self.putCardOnTable(card, "Computer")
                                 if card.figure == '2':
                                     self.fight += 2
                                 elif card.figure == '3':
@@ -249,12 +258,12 @@ class Game:
                                     self.fight += 5
                                 ex = 1
                             elif card.figure == '4' and self.que != 0:
-                                self.putCardOnTable(card, "Computer")
+                                #self.putCardOnTable(card, "Computer")
                                 self.que += 1
                                 ex = 1
 
                 elif card.figure == self.askFigure or card.figure == 'J' or card.figure == 'Q':
-                    self.putCardOnTable(card, "Computer")
+                    #self.putCardOnTable(card, "Computer")
                     self.turnsLeft -= 1
                     if self.turnsLeft == 0:
                         self.askFigure = None
@@ -264,7 +273,7 @@ class Game:
                     ex = 1
 
             elif card.color == self.colorChange or card.figure == 'A' or card.figure == 'Q':
-                self.putCardOnTable(card, "Computer")
+                #self.putCardOnTable(card, "Computer")
                 self.turnsLeft -= 1
                 if self.turnsLeft == 0:
                     self.colorChange = None
@@ -275,21 +284,42 @@ class Game:
 
             if ex == 1:
                 get = 0
-                if self.playerWaits == 0:
+                ranCardsComputer.remove(card)
+                card.pos_x = 0
+                card.pos_y = 0
+                card.state = "Deck"
+                boardCards.append(card)
+                if self.playerWaits <= 1:
+                    self.playerWaits = 0
                     self.turn = "Player"
                 else:
                     self.playerWaits -= 1
                     print("Gracz stoi jeszcze ", self.playerWaits, " kolejek")
                 break
         if get:
-            if self.que != 0:
-                self.takeCard("Computer")
+            if self.que > 0:
+                #self.takeCard("Computer")
+                a = random.randint(0, 51)
+                while cards[a].state != "Deck":
+                    a = random.randint(0, 51)
+                ranCardsComputer.append(cards[a])
+                cards[a].state = "Computer"
                 self.computerWaits = self.que
                 self.que = 0
-            elif self.fight != 0:
-                while self.fight != 0:
-                    self.takeCard("Computer")
+            elif self.fight > 0:
+                while self.fight > 0:
+                    #self.takeCard("Computer")
+                    a = random.randint(0, 51)
+                    while cards[a].state != "Deck":
+                        a = random.randint(0, 51)
+                    ranCardsComputer.append(cards[a])
+                    cards[a].state = "Computer"
                     self.fight -= 1
             else:
-                self.takeCard("Computer")
+                #self.takeCard("Computer")
+                a = random.randint(0, 51)
+                while cards[a].state != "Deck":
+                    a = random.randint(0, 51)
+                ranCardsComputer.append(cards[a])
+                cards[a].state = "Computer"
             self.turn = "Player"
