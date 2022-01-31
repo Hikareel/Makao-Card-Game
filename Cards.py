@@ -1,6 +1,7 @@
+#Filip Stańczak WCY19IJ3SJ nr.Album 75155
+
 import random
 import string
-
 import pygame.image
 from Constants import *
 

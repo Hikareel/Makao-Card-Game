@@ -1,3 +1,5 @@
+#Filip Stańczak WCY19IJ3SJ nr.Album 75155
+
 from random import random
 from Cards import *
 

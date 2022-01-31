@@ -1,3 +1,5 @@
+#Filip Stańczak WCY19IJ3SJ nr.Album 75155
+
 WIDTH = 1280
 HEIGHT = 720
 CARD_WIDTH = 130

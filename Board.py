@@ -1,3 +1,5 @@
+#Filip Stańczak WCY19IJ3SJ nr.Album 75155
+
 import pygame
 from Constants import *
 from Cards import *
