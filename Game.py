@@ -203,6 +203,8 @@ class Game:
                         a = random.randint(0, 51)
                     ranCardsPlayer.append(cards[a])
                     cards[a].state = "Player"
+                    if (self.askFigure != None or self.colorChange != None):
+                        self.turnsLeft -= 1
                 self.turn = "Computer"
 
 
@@ -322,4 +324,6 @@ class Game:
                     a = random.randint(0, 51)
                 ranCardsComputer.append(cards[a])
                 cards[a].state = "Computer"
+                if(self.askFigure != None or self.colorChange != None):
+                    self.turnsLeft -= 1
             self.turn = "Player"

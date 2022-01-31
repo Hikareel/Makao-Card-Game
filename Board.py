@@ -33,7 +33,7 @@ def showCards(forWho, SCREEN):
         x = WIDTH - 80
         y = 0
         for i in range(len(forWho)):
-            SCREEN.blit(forWho[i].image, (x,y))
+            SCREEN.blit(forWho[i].back, (x,y))
             forWho[i].pos_x = x
             forWho[i].pos_y = y
             y += CARD_HEIGHT / (len(forWho)/3)
